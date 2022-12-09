@@ -1,4 +1,4 @@
-# changeLegendColour
+# gglegendcolour
 A package to customise the colours of your legend text and remove the legend key from ggplot2 graphs.
 
 ## Installation
@@ -7,13 +7,13 @@ Install the development version of the package from GitHub:
 
 ```
 install.packages("devtools")
-devtools::install_github("department-for-transport/gglegendcolour")
+devtools::install_github("department-for-transport-public/gglegendcolour")
 ```
 
 # How to use
 
 ```
-changeLegendColour(
+gglegendcolour::changeLegendColour(
   x = a ggplot2 object,
   remove_key = boolean value where TRUE removes the key from your legend and FALSE will keep the boolean value (default is TRUE)
 )
@@ -50,7 +50,7 @@ p <- ggplot(
     aesthetics = c("colour", "fill")
   )
 
-p <- changeLegendColour::changeLegendColour(
+p <- gglegendcolour::changeLegendColour(
   x = p,
   remove_key = TRUE
 )
