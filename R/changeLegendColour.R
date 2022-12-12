@@ -41,7 +41,7 @@ changeLegendColour <- function(x,
   ##Extract names and colours automagically from plot if available from palette cache
 
   leg_font_colour <- base::data.frame(
-    leg_text = g$plot$scales$scales[[3]]$get_labels(),
+    leg_text = g$plot$scales$scales[[proto]]$get_labels(),
     col = base::unname(g$plot$scales$scales[[proto]]$palette.cache)
   )
 
