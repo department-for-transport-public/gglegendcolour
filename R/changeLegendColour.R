@@ -23,38 +23,32 @@ changeLegendColour <- function(x,
   ##Build plot to extract deets from it
   g <- ggplot2::ggplot_build(x)
 
-  if(is.null(g$plot$scales$scales[[1]]$palette.cache)) {
+  ##Check which of the scales contains the colours
+  proto <- c()
+    for(i in 1:length(g$plot$scales$scales)){
+
+    if(!is.null(g$plot$scales$scales[[i]]$palette.cache)){
+
+      proto <- c(proto, i)
+
+      }
+  }
+
+  if(is.null(g$plot$scales$scales[[proto]]$palette.cache)) {
     stop("You must choose options for the colour/fill in your ggplot2 object.")
   }
 
-  if(is.null(base::names(g$plot$scales$scales[[1]]$palette.cache))) {
-    stop("You must provide names to the vector containing the colours you chose
-         which correspond to the group which is that colour:
-         scale_colour_manual(values = c('group 1' = 'colour 1', ...))")
-  }
-
-  if(is.null(base::names(g$plot$scales$scales[[1]]$palette.cache))) {
-    stop("You must provide names to the vector containing the colours you chose
-         which correspond to the group which is that colour:
-         scale_colour_manual(values = c('group 1' = 'colour 1', ...))")
-  }
-
-  if(base::length(g$plot$scales$scales[[1]]$labels) > 0 & is.null(base::names(g$plot$scales$scales[[1]]$labels))) {
-    stop("You must provide names to the vector containing the new labels you chose for your legend
-         which correspond to the group which has that new label:
-         scale_colour_manual(values = c('group 1' = 'label 1', ...))")
-  }
   ##Extract names and colours automagically from plot if available from palette cache
 
   leg_font_colour <- base::data.frame(
-    leg_text = base::names(g$plot$scales$scales[[1]]$palette.cache),
-    col = base::unname(g$plot$scales$scales[[1]]$palette.cache)
+    leg_text = g$plot$scales$scales[[3]]$get_labels(),
+    col = base::unname(g$plot$scales$scales[[proto]]$palette.cache)
   )
 
-  if(base::length(g$plot$scales$scales[[1]]$labels) > 0) {
+  if(base::length(g$plot$scales$scales[[proto]]$labels) > 0) {
     new_leg_text <- base::data.frame(
-      leg_text = base::names(g$plot$scales$scales[[1]]$labels),
-      new_leg_text = base::unname(g$plot$scales$scales[[1]]$labels)
+      leg_text = base::names(g$plot$scales$scales[[proto]]$labels),
+      new_leg_text = base::unname(g$plot$scales$scales[[proto]]$labels)
     )
 
     leg_font_colour <- base::merge(leg_font_colour, new_leg_text, by = "leg_text", all.x = TRUE)
