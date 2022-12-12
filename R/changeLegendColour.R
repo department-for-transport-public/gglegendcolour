@@ -42,7 +42,7 @@ changeLegendColour <- function(x,
 
   leg_font_colour <- base::data.frame(
     leg_text = g$plot$scales$scales[[proto]]$get_labels(),
-    col = base::unname(g$plot$scales$scales[[proto]]$palette.cache)
+    col = base::unname(g$plot$scales$scales[[proto]]$palette.cache[1:length(g$plot$scales$scales[[proto]]$get_labels())])
   )
 
   if(base::length(g$plot$scales$scales[[proto]]$labels) > 0) {
