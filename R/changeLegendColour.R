@@ -30,6 +30,7 @@ changeLegendColour <- function(x,
     if(!is.null(g$plot$scales$scales[[i]]$palette.cache)){
 
       proto <- c(proto, i)
+      break()
 
       }
   }
