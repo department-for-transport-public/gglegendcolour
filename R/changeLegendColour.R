@@ -56,6 +56,23 @@ changeLegendColour <- function(x,
 
     #Match colour up to associated blob colour
     col_for_leg_text <- graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$col
+    #if colour doesn't exist because key is filled, then grab first 7 characters of fill
+    # as 8 and 9 are alpha values, not the rgb part of the hex code
+    col_for_leg_text <- base::ifelse(
+      is.na(col_for_leg_text),
+      base::substr(
+        x = graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$fill,
+        start = 1,
+        stop = 7),
+      col_for_leg_text
+    )
+
+    #If it is still NA, just keep text black
+    col_for_leg_text <- base::ifelse(
+      is.na(col_for_leg_text),
+      "#000000",
+      col_for_leg_text
+    )
     graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[label_text][[i]]$children[[gb3]]$children[[gb4]]$gp$col <- col_for_leg_text
   }
 
