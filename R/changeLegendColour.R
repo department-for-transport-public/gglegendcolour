@@ -35,8 +35,15 @@ changeLegendColour <- function(x,
 
   ##Find colours associated with each legend object
   ##Grobs of colour blobs
-  col_blobs <- grep("GRID.points",
-                    graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs)
+
+  #Index of grobs with key in the name
+  keys <- grep("key", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name, fixed = TRUE)
+
+  #Index of the above index without -bg
+  keys_no_bg <- grep("-bg", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name[keys], fixed = TRUE, invert = TRUE)
+
+  #Index of grobs with key in the name but doesn't end -bg
+  col_blobs <- keys[keys_no_bg]
 
   for(i in 1:base::length(label_text)) {
 
