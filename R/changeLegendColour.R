@@ -20,69 +20,64 @@ changeLegendColour <- function(x,
 
   graph_grob <- ggplot2::ggplotGrob(x)
 
-  ##Build plot to extract deets from it
-  g <- ggplot2::ggplot_build(x)
-
-  if(is.null(g$plot$scales$scales[[1]]$palette.cache)) {
-    stop("You must choose options for the colour/fill in your ggplot2 object.")
-  }
-
-  if(is.null(base::names(g$plot$scales$scales[[1]]$palette.cache))) {
-    stop("You must provide names to the vector containing the colours you chose
-         which correspond to the group which is that colour:
-         scale_colour_manual(values = c('group 1' = 'colour 1', ...))")
-  }
-
-  if(is.null(base::names(g$plot$scales$scales[[1]]$palette.cache))) {
-    stop("You must provide names to the vector containing the colours you chose
-         which correspond to the group which is that colour:
-         scale_colour_manual(values = c('group 1' = 'colour 1', ...))")
-  }
-
-  if(base::length(g$plot$scales$scales[[1]]$labels) > 0 & is.null(base::names(g$plot$scales$scales[[1]]$labels))) {
-    stop("You must provide names to the vector containing the new labels you chose for your legend
-         which correspond to the group which has that new label:
-         scale_colour_manual(values = c('group 1' = 'label 1', ...))")
-  }
-  ##Extract names and colours automagically from plot if available from palette cache
-
-  leg_font_colour <- base::data.frame(
-    leg_text = base::names(g$plot$scales$scales[[1]]$palette.cache),
-    col = base::unname(g$plot$scales$scales[[1]]$palette.cache)
-  )
-
-  if(base::length(g$plot$scales$scales[[1]]$labels) > 0) {
-    new_leg_text <- base::data.frame(
-      leg_text = base::names(g$plot$scales$scales[[1]]$labels),
-      new_leg_text = base::unname(g$plot$scales$scales[[1]]$labels)
-    )
-
-    leg_font_colour <- base::merge(leg_font_colour, new_leg_text, by = "leg_text", all.x = TRUE)
-    leg_font_colour$new_leg_text[is.na(leg_font_colour$new_leg_text)] <- leg_font_colour$leg_text[is.na(leg_font_colour$new_leg_text)]
-    colnames(leg_font_colour)[colnames(leg_font_colour) == "leg_text"] <- "old_leg_text"
-    colnames(leg_font_colour)[colnames(leg_font_colour) == "new_leg_text"] <- "leg_text"
-  }
-
   #Find all the legend text
   gb <- base::grep("guide-box",
-                   graph_grob$layout$name)
+                   graph_grob$layout$name,
+                   fixed = TRUE)
+
+  if(length(gb) == 0) {
+    stop("No guide-box element found in the grob of the ggplot")
+  }
+
   gb2 <- base::grep("guides",
-                    graph_grob$grobs[[gb]]$layout$name)
+                    graph_grob$grobs[[gb]]$layout$name,
+                    fixed = TRUE)
+
   label_text <- base::grep("label",
-                           graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name)
+                           graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name,
+                           fixed = TRUE)
+
+  ##Find colours associated with each legend object
+  ##Grobs of colour blobs
+
+  #Index of grobs with key in the name
+  keys <- grep("key", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name, fixed = TRUE)
+
+  #Index of the above index without -bg
+  keys_no_bg <- grep("-bg", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name[keys], fixed = TRUE, invert = TRUE)
+
+  #Index of grobs with key in the name but doesn't end -bg
+  col_blobs <- keys[keys_no_bg]
 
   for(i in 1:base::length(label_text)) {
 
     #Find legend text to change colour
     gb3 <- base::grep("guide.label.titleGrob.",
                   graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[label_text][[i]]$children)
-    gb4 <- base::grepl("GRID.text.",
+    gb4 <- base::grep("GRID.text.",
                   graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[label_text][[i]]$children[[gb3]]$children)
 
-    leg_text_to_match <- graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[label_text][[i]]$children[[gb3]]$children[[gb4]]$label
 
-    #Get colour for legend text
-    col_for_leg_text <- leg_font_colour[leg_font_colour$leg_text == leg_text_to_match, "col"]
+    #Match colour up to associated blob colour
+    #grab fill of key, but grab first 7 characters of fill
+    # as 8 and 9 are alpha values, not the rgb part of the hex code
+    col_for_leg_text <- base::substr(
+      x = graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$fill,
+      start = 1,
+      stop = 7)
+    #if fill doesn't exist, then grab col
+    col_for_leg_text <- base::ifelse(
+      is.na(col_for_leg_text),
+      graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$col,
+      col_for_leg_text
+    )
+
+    #If it is still NA, just keep text black
+    col_for_leg_text <- base::ifelse(
+      is.na(col_for_leg_text),
+      "#000000",
+      col_for_leg_text
+    )
     graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[label_text][[i]]$children[[gb3]]$children[[gb4]]$gp$col <- col_for_leg_text
   }
 
