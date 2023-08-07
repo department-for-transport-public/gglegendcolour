@@ -25,6 +25,10 @@ changeLegendColour <- function(x,
                    graph_grob$layout$name,
                    fixed = TRUE)
 
+  if(length(gb) == 0) {
+    stop("No guide-box element found in the grob of the ggplot")
+  }
+
   gb2 <- base::grep("guides",
                     graph_grob$grobs[[gb]]$layout$name,
                     fixed = TRUE)
@@ -55,15 +59,16 @@ changeLegendColour <- function(x,
 
 
     #Match colour up to associated blob colour
-    col_for_leg_text <- graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$col
-    #if colour doesn't exist because key is filled, then grab first 7 characters of fill
+    #grab fill of key, but grab first 7 characters of fill
     # as 8 and 9 are alpha values, not the rgb part of the hex code
+    col_for_leg_text <- base::substr(
+      x = graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$fill,
+      start = 1,
+      stop = 7)
+    #if fill doesn't exist, then grab col
     col_for_leg_text <- base::ifelse(
       is.na(col_for_leg_text),
-      base::substr(
-        x = graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$fill,
-        start = 1,
-        stop = 7),
+      graph_grob$grobs[[gb]]$grobs[[gb2]]$grobs[[col_blobs[i]]]$gp$col,
       col_for_leg_text
     )
 
