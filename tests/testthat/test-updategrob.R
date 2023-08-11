@@ -32,8 +32,6 @@ testthat::test_that("legend removed error", {
     scale_fill_manual(name="Mileage",
                       labels = c("Above Average", "Below Average"),
                       values = c("above"="#00ba38", "below"="#f8766d")) +
-    labs(subtitle="Normalised mileage from 'mtcars'",
-         title= "Diverging Bars") +
     coord_flip()
 
   testthat::expect_error(
@@ -42,45 +40,31 @@ testthat::test_that("legend removed error", {
   )
 })
 
-# testthat::test_that("scatterplot test", {
-#
-#   data("midwest", package = "ggplot2")
-#   gg <- ggplot(midwest, aes(x=area, y=poptotal)) +
-#     geom_point(aes(col=state)) +
-#     scale_colour_manual(values = c("IL" = "#15b542", "IN" = "#232323", "MI" = "#99c3ba", "OH" = "#004d3b", "WI" = "#6676a9"))
-#
-#   testthat::expect_equal(
-#     object = ggplotGrob(changeLegendColour(gg, FALSE))$grobs[[15]]$grobs[[1]]$grobs[13][[1]]$children[[1]]$children[[1]]$gp$col,
-#     expected = "#15b542"
-#   )
-# })
+testthat::test_that("scatterplot test", {
 
-#
-# testthat::test_that("scatterplot test", {
-#
-#   data("midwest", package = "ggplot2")
-#   gg <- ggplot(midwest, aes(x=area, y=poptotal)) +
-#     geom_point(aes(col=state)) +
-#     scale_colour_manual(values = c("IL" = "#15b542", "IN" = "#232323", "MI" = "#99c3ba", "OH" = "#004d3b", "WI" = "#6676a9"))
-#
-#   testthat::expect_equal(
-#     object = ggplotGrob(changeLegendColour(gg, FALSE))$grobs[[15]]$grobs[[1]]$grobs[13][[1]]$children[[1]]$children[[1]]$gp$col,
-#     expected = "#15b542"
-#   )
-#   # testthat::expect_equal(
-#   #   object = ggplotGrob(changeLegendColour(gg, FALSE))$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$gp$col,
-#   #   expected = "#232323"
-#   # )
-#   # testthat::expect_equal(
-#   #   object = ggplotGrob(changeLegendColour(gg, FALSE))$grobs[[15]]$grobs[[1]]$grobs[15][[1]]$children[[1]]$children[[1]]$gp$col,
-#   #   expected = "#99c3ba"
-#   # )
-#   # testthat::expect_equal(
-#   #   object = ggplotGrob(changeLegendColour(gg, FALSE))$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$gp$col,
-#   #   expected = "#004d3b"
-#   # )
-#   # testthat::expect_equal(
-#   #   object = ggplotGrob(changeLegendColour(gg, FALSE))$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
-#   #   expected = "#6676a9"
-#   # )
-# })
+  data("midwest", package = "ggplot2")
+  gg <- ggplot(midwest, aes(x=area, y=poptotal)) +
+    geom_point(aes(col=state)) +
+    scale_colour_manual(values = c("IL" = "#15b542", "IN" = "#232323", "MI" = "#99c3ba", "OH" = "#004d3b", "WI" = "#6676a9"))
+
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[13][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#15B542FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#232323FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[15][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#99C3BAFF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#004D3BFF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#6676A9FF"
+  )
+})

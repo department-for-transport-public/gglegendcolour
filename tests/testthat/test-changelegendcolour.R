@@ -5,5 +5,15 @@ testthat::test_that("ggplot error", {
   )
 })
 
+testthat::test_that("return ggplot", {
 
+  data("midwest", package = "ggplot2")
+  gg <- ggplot(midwest, aes(x=area, y=poptotal)) +
+    geom_point(aes(col=state)) +
+    scale_colour_manual(values = c("IL" = "#15b542", "IN" = "#232323", "MI" = "#99c3ba", "OH" = "#004d3b", "WI" = "#6676a9"))
+
+  testthat::expect_true(
+    object = ggplot2::is.ggplot(changeLegendColour(gg, remove_key = FALSE))
+  )
+})
 

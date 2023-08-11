@@ -20,7 +20,7 @@ changeLegendColour <- function(x,
 
   final_graph <- updateGrob(x = x, remove_key = remove_key)
 
-  final_graph <- ggplotify::as.ggplot(graph_grob)
+  final_graph <- ggplotify::as.ggplot(final_graph)
 
   return(final_graph)
 }
