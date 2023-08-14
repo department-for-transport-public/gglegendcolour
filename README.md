@@ -20,18 +20,7 @@ gglegendcolour::changeLegendColour(
 ```
 Just create your ggplot2 graph as per normal, then use the changeLegendColour function with your ggplot object as the first argument and the second argument should be TRUE or FALSE depending on whether you wish to remove the key. The default value for the second argument is TRUE which removes the key from the returned ggplot2 object.
 
-In your ggplot2 object, you must supply colours to your groups. The vector you supply the colours in must be named with the names corresponding to the groups.
-
-If you wish to update the labels in your legend, as per the colours, the vector you supply the new labels in must be named with the names corresponding to the groups.
-
-As an example, if you're using scale_color_manual to supply your colours, this is what the values and labels arguments to that must look like:
-
-``` 
-scale_color_manual(
-  values = c("group 1" = "colour 1",...),
-  labels = c("group 1" = "colour 1",...)
-)
-```
+In your ggplot2 object, you must have a legend else you'll get an error. If you have multiple parts to the key in your legend, such as if your key had a line and a dot for each element in the key, the whole key for each element should be the same colour.
 
 # Example code
 ```
