@@ -1,5 +1,5 @@
 # gglegendcolour
-A package to customise the colours of your legend text and remove the legend key from ggplot2 graphs.
+A package to change the colours of your legend text into the same colour as the legend key and remove the legend key from ggplot2 graphs.
 
 ## Installation
 
