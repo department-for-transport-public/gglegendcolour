@@ -37,8 +37,9 @@ updateGrob <- function(x, remove_key = TRUE) {
   #Index of grobs with key in the name
   keys <- grep("key", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name, fixed = TRUE)
 
-  #Index of the above index without -bg
-  keys_no_bg <- grep("-bg", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name[keys], fixed = TRUE, invert = TRUE)
+  #Index of the above index ending -1-1 which will remove those ending -bg and
+  #where there is more than 1 element to the key
+  keys_no_bg <- grep("-1-1", graph_grob$grobs[[gb]]$grobs[[gb2]]$layout$name[keys], fixed = TRUE, invert = FALSE)
 
   #Index of grobs with key in the name but doesn't end -bg
   col_blobs <- keys[keys_no_bg]
