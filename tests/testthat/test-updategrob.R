@@ -68,3 +68,31 @@ testthat::test_that("scatterplot test", {
     expected = "#6676A9FF"
   )
 })
+
+testthat::test_that("line and scatterplot test", {
+  data(mpg, package="ggplot2")
+
+  mpg_select <- mpg[mpg$manufacturer %in% c("audi", "ford", "honda", "hyundai"), ]
+
+  g <- ggplot(mpg_select, aes(displ, cty)) +
+    geom_jitter(aes(col=manufacturer)) +
+    geom_smooth(aes(col=manufacturer), method="lm", se=F) +
+    scale_colour_manual(values = c("audi" = "#15b542", "ford" = "#232323", "honda" = "#99c3ba", "hyundai" = "#004d3b"))
+
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[15][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#15B542FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#232323FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#99C3BAFF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#004D3BFF"
+  )
+})
