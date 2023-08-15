@@ -52,20 +52,40 @@ testthat::test_that("scatterplot test", {
     expected = "#15B542FF"
   )
   testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[13][[1]]$children[[1]]$children[[1]]$label,
+    expected = "IL"
+  )
+  testthat::expect_equal(
     object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#232323FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$label,
+    expected = "IN"
   )
   testthat::expect_equal(
     object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[15][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#99C3BAFF"
   )
   testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[15][[1]]$children[[1]]$children[[1]]$label,
+    expected = "MI"
+  )
+  testthat::expect_equal(
     object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#004D3BFF"
   )
   testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$label,
+    expected = "OH"
+  )
+  testthat::expect_equal(
     object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#6676A9FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$label,
+    expected = "WI"
   )
 })
 
@@ -84,15 +104,218 @@ testthat::test_that("line and scatterplot test", {
     expected = "#15B542FF"
   )
   testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[15][[1]]$children[[1]]$children[[1]]$label,
+    expected = "audi"
+  )
+  testthat::expect_equal(
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#232323FF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[16][[1]]$children[[1]]$children[[1]]$label,
+    expected = "ford"
   )
   testthat::expect_equal(
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#99C3BAFF"
   )
   testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$label,
+    expected = "honda"
+  )
+  testthat::expect_equal(
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$gp$col,
     expected = "#004D3BFF"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$label,
+    expected = "hyundai"
+  )
+})
+
+testthat::test_that("waffle fill not colour test", {
+  library(ggplot2)
+  var <- mpg$class  # the categorical data
+  ## Prep data (nothing to change here)
+  nrows <- 10
+  df <- expand.grid(y = 1:nrows, x = 1:nrows)
+  categ_table <- round(table(var) * ((nrows*nrows)/(length(var))))
+  df$category <- factor(rep(names(categ_table), categ_table))
+
+  ## Plot
+  g <- ggplot(df, aes(x = x, y = y, fill = category)) +
+    geom_tile(color = "black", linewidth = 0.5) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0), trans = 'reverse') +
+    scale_fill_manual(values = c(
+      "2seater" = "#15B542", "compact"= "#232323","midsize" = "#99C3BA","minivan" = "#004D3B",
+      "pickup" = "#6676A9","subcompact" = "#FF0000","suv" = "#00B0F0")) +
+    labs(title="Waffle Chart", subtitle="'Class' of vehicles",
+         caption="Source: mpg")
+
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#15B542"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$label,
+    expected = "2seater"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#232323"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$label,
+    expected = "compact"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[19][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#99C3BA"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[19][[1]]$children[[1]]$children[[1]]$label,
+    expected = "midsize"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[20][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#004D3B"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[20][[1]]$children[[1]]$children[[1]]$label,
+    expected = "minivan"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[21][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#6676A9"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[21][[1]]$children[[1]]$children[[1]]$label,
+    expected = "pickup"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[22][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#FF0000"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[22][[1]]$children[[1]]$children[[1]]$label,
+    expected = "subcompact"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[23][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#00B0F0"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[23][[1]]$children[[1]]$children[[1]]$label,
+    expected = "suv"
+  )
+})
+
+testthat::test_that("pie fill not colour test", {
+  library(ggplot2)
+  g <- ggplot(mpg, aes(x = "", fill = factor(class))) +
+    geom_bar(width = 1) +
+    coord_polar(theta = "y", start=0) +
+    scale_fill_manual(values = c(
+      "2seater" = "#15B542", "compact"= "#232323","midsize" = "#99C3BA","minivan" = "#004D3B",
+      "pickup" = "#6676A9","subcompact" = "#FF0000","suv" = "#00B0F0"))
+
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#15B542"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$label,
+    expected = "2seater"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#232323"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$label,
+    expected = "compact"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[19][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#99C3BA"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[19][[1]]$children[[1]]$children[[1]]$label,
+    expected = "midsize"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[20][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#004D3B"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[20][[1]]$children[[1]]$children[[1]]$label,
+    expected = "minivan"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[21][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#6676A9"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[21][[1]]$children[[1]]$children[[1]]$label,
+    expected = "pickup"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[22][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#FF0000"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[22][[1]]$children[[1]]$children[[1]]$label,
+    expected = "subcompact"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[23][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#00B0F0"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[23][[1]]$children[[1]]$children[[1]]$label,
+    expected = "suv"
+  )
+})
+
+testthat::test_that("boxplot test", {
+  library(ggplot2)
+  g <- ggplot(mpg, aes(class, cty)) +
+    geom_boxplot(aes(fill=factor(cyl))) +
+    scale_fill_manual(values = c(
+      "4" = "#15B542", "5"= "#232323","6" = "#99C3BA","8" = "#004D3B"
+    ))
+
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[11][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#15B542"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[11][[1]]$children[[1]]$children[[1]]$label,
+    expected = "4"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[12][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#232323"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[12][[1]]$children[[1]]$children[[1]]$label,
+    expected = "5"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[13][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#99C3BA"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[13][[1]]$children[[1]]$children[[1]]$label,
+    expected = "6"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$gp$col,
+    expected = "#004D3B"
+  )
+  testthat::expect_equal(
+    object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$label,
+    expected = "8"
   )
 })
