@@ -87,6 +87,13 @@ testthat::test_that("scatterplot test", {
     object = updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$grobs[17][[1]]$children[[1]]$children[[1]]$label,
     expected = "WI"
   )
+
+  testthat::expect_true(
+    object = identical(grep("key",updateGrob(gg, TRUE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
+  testthat::expect_false(
+    object = identical(grep("key",updateGrob(gg, FALSE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
 })
 
 testthat::test_that("line and scatterplot test", {
@@ -130,6 +137,13 @@ testthat::test_that("line and scatterplot test", {
   testthat::expect_equal(
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[18][[1]]$children[[1]]$children[[1]]$label,
     expected = "hyundai"
+  )
+
+  testthat::expect_true(
+    object = identical(grep("key",updateGrob(g, TRUE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
+  testthat::expect_false(
+    object = identical(grep("key",updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
   )
 })
 
@@ -209,6 +223,13 @@ testthat::test_that("waffle fill not colour test", {
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[23][[1]]$children[[1]]$children[[1]]$label,
     expected = "suv"
   )
+
+  testthat::expect_true(
+    object = identical(grep("key",updateGrob(g, TRUE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
+  testthat::expect_false(
+    object = identical(grep("key",updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
 })
 
 testthat::test_that("pie fill not colour test", {
@@ -276,6 +297,13 @@ testthat::test_that("pie fill not colour test", {
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[23][[1]]$children[[1]]$children[[1]]$label,
     expected = "suv"
   )
+
+  testthat::expect_true(
+    object = identical(grep("key",updateGrob(g, TRUE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
+  testthat::expect_false(
+    object = identical(grep("key",updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
 })
 
 testthat::test_that("boxplot test", {
@@ -317,5 +345,12 @@ testthat::test_that("boxplot test", {
   testthat::expect_equal(
     object = updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$grobs[14][[1]]$children[[1]]$children[[1]]$label,
     expected = "8"
+  )
+
+  testthat::expect_true(
+    object = identical(grep("key",updateGrob(g, TRUE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
+  )
+  testthat::expect_false(
+    object = identical(grep("key",updateGrob(g, FALSE)$grobs[[15]]$grobs[[1]]$layout$name), integer(0))
   )
 })
