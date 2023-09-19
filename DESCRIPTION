@@ -3,13 +3,14 @@ Type: Package
 Title: Change the Colour of ggplot2 Legend Labels
 Version: 0.1.3
 Authors@R: 
-    c(person("Sean", "Longman", ,"sean.longman@dft.gov.uk", role = c("aut", "cre")))
+  c(
+  person(given = "Sean", family = "Longman", email = "sean.longman@dft.gov.uk", role = c("aut", "cre")))
 Description: Modify the legend of a ggplot2 chart to allow for coloured legend items.
 License: MIT + file LICENSE
-Depends: ggplot2, ggplotify, gtable
+Imports: ggplot2, ggplotify, gtable
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
