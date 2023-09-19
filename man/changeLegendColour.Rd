@@ -16,7 +16,7 @@ to remove. Defaults to True.}
 Returns a ggplot object
 }
 \description{
-Change the colour of your legend text to match the groups on the graph it's each line of text is referring to.
+Change the colour of your legend text to the same colour of the group on the graph.
 }
 \examples{
 

@@ -10,7 +10,7 @@
 #'
 #' @title Change the text colour of your legend
 #'
-#' @description Change the colour of your legend text to match the groups on the graph it's each line of text is referring to.
+#' @description Change the colour of your legend text to the same colour of the group on the graph.
 #'
 #' @return Returns a ggplot object
 #'
