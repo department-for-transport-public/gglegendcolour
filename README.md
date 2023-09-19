@@ -26,18 +26,11 @@ In your ggplot2 object, you must have a legend else you'll get an error. If you 
 ```
 library(ggplot2)
 
-cols <- c("8" = "red", "4" = "blue", "6" = "darkgreen", "10" = "orange")
-
 p <- ggplot(
   mtcars,
   aes(mpg, wt, colour = factor(cyl), fill = factor(cyl))
 ) +
-  geom_point(shape = 21, alpha = 0.5, size = 2) +
-  scale_colour_manual(
-    values = cols,
-    labels = c("8" = "eight", "4" = "four", "6" = "six", "10" = "ten"),
-    aesthetics = c("colour", "fill")
-  )
+  geom_point(shape = 21, alpha = 0.5, size = 2) 
 
 p <- gglegendcolour::changeLegendColour(
   x = p,
@@ -45,3 +38,4 @@ p <- gglegendcolour::changeLegendColour(
 )
 p
 ```
+

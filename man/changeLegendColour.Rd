@@ -2,7 +2,7 @@
 % Please edit documentation in R/changeLegendColour.R
 \name{changeLegendColour}
 \alias{changeLegendColour}
-\title{Customise the text colour of your legend.}
+\title{Change the text colour of your legend}
 \usage{
 changeLegendColour(x, remove_key = TRUE)
 }
@@ -12,6 +12,30 @@ changeLegendColour(x, remove_key = TRUE)
 \item{remove_key}{Boolean to whether to remove the key from the legend. True
 to remove. Defaults to True.}
 }
+\value{
+Returns a ggplot object
+}
 \description{
-Customise the text colour of your legend.
+Change the colour of your legend text to match the groups on the graph it's each line of text is referring to.
+}
+\examples{
+
+\dontrun{
+# Create your ggplot2 graph and store in a variable
+p <- ggplot(
+  mtcars,
+  aes(mpg, wt, colour = factor(cyl), fill = factor(cyl))
+) +
+  geom_point(shape = 21, alpha = 0.5, size = 2)
+
+# Supply your graph to the changeLegendColour function
+p <- gglegendcolour::changeLegendColour(
+  x = p,
+  remove_key = TRUE
+)
+
+# View the output
+p
+
+}
 }
